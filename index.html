@@ -1,221 +1,430 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Bridal Glow Calendar – v3 (15 AUG 2025 to 1 DEC 2025)</title>
-<style>
-  :root{
-    --navy: #0d1b2a;
-    --navy-2:#10243a;
-    --card:#f7f9fc;
-    --card-2:#eef2f7;
-    --text:#111827;
-    --muted:#6b7280;
-    --accent-green:#1e8e3e;
-    --bg-green:#d9f2df;
-    --accent-red:#b91c1c;
-    --bg-red:#fde2e2;
-    --gold:#f0c36d;
-    --gold-deep:#b37400;
-    --white:#ffffff;
-    --shadow: 0 4px 16px rgba(0,0,0,0.2);
-    --radius: 12px;
-  }
-  html,body{height:100%}
-  body{
-    margin:0; padding:0;
-    background: linear-gradient(180deg, var(--navy), var(--navy-2));
-    color: var(--text);
-    font-family: ui-sans-serif, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
-    line-height:1.5;
-  }
-  .wrap{
-    max-width:1200px;
-    margin: 16px auto;
-    padding: 10px;
-  }
-  .title-card{
-    background: linear-gradient(180deg, #112a44, #0e2236);
-    border:1px solid #203549;
-    color:#e6f0fb;
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    padding: 16px 18px;
-    display:flex; align-items:center; justify-content:space-between; gap:12px;
-    flex-wrap: wrap;
-  }
-  .title-card h1{
-    margin:0; font-weight:800; letter-spacing:0.4px; font-size: clamp(18px, 2.8vw, 26px);
-  }
-  .period{
-    color:#cfe2ff;
-    font-weight:600;
-    background:#1a3350;
-    border:1px solid #274767;
-    padding:6px 10px; border-radius: 8px;
-  }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bridal Glow Calendar – v3 (15 AUG 2025 to 1 DEC 2025)</title>
+  <style>
+    :root {
+      --navy: #0d1b2a;
+      --navy-2: #10243a;
+      --card: #f7f9fc;
+      --card-2: #eef2f7;
+      --text: #111827;
+      --muted: #6b7280;
+      --accent-green: #1e8e3e;
+      --bg-green: #d9f2df;
+      --accent-red: #b91c1c;
+      --bg-red: #fde2e2;
+      --gold: #f0c36d;
+      --gold-deep: #b37400;
+      --white: #ffffff;
+      --shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+      --radius: 12px;
+    }
 
-  .layout{
-    display:grid;
-    grid-template-columns: 1fr 290px;
-    gap:16px;
-    margin-top:16px;
-  }
-  @media (max-width: 980px){
-    .layout{ grid-template-columns: 1fr; }
-  }
+    html,
+    body {
+      height: 100%
+    }
 
-  .card{
-    background: var(--card);
-    border:1px solid #d9e1ec;
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    padding: 14px;
-  }
-  .card h2{
-    margin:4px 0 10px;
-    color:#0f172a;
-    border-bottom: 3px solid #2c4b6b;
-    padding-bottom: 6px;
-    font-size: clamp(16px, 2.3vw, 20px);
-  }
-  .subhead{
-    font-weight:700; color:#1f2937; margin-top:10px; margin-bottom:6px; text-decoration: underline;
-  }
-  .muted{ color: var(--muted); }
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(180deg, var(--navy), var(--navy-2));
+      color: var(--text);
+      font-family: ui-sans-serif, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      line-height: 1.5;
+    }
 
-  /* Daily controls */
-  .daily-controls{
-    display:flex; align-items:center; gap:8px; flex-wrap: wrap;
-    background: var(--card-2);
-    border:1px solid #d1dae6;
-    border-radius: 10px;
-    padding: 8px;
-    margin-bottom:10px;
-  }
-  .daily-controls label{ font-weight:600; color:#0f172a; }
-  .daily-controls input[type=date]{
-    padding:6px 8px; border-radius:8px; border:1px solid #cbd5e1; background:#fff; color:#0f172a;
-  }
-  .btn{
-    appearance:none; border:1px solid #1f3a56; color:#e6f0fb; background:#1b3250;
-    padding:6px 10px; border-radius:8px; cursor:pointer; font-weight:600;
-  }
-  .btn:hover{ background:#214369; }
-  .btn.secondary{
-    background:#23425d; border-color:#315876; color:#e7f1ff;
-  }
-  .btn.secondary:hover{ background:#2a4f70; }
+    .wrap {
+      max-width: 1200px;
+      margin: 16px auto;
+      padding: 10px;
+    }
 
-  /* Checklist */
-  .checklist label{
-    display:flex; align-items:flex-start; gap:8px; padding:6px 8px; margin-bottom:6px;
-    border-radius:8px; background:#fff; border:1px solid #e5e7eb;
-  }
-  .checklist input[type=checkbox]{
-    width:18px; height:18px; margin-top:2px; cursor:pointer;
-    accent-color: var(--accent-green);
-  }
-  .checklist label.completed{
-    background: var(--bg-green);
-    border-color:#bfe7c6;
-  }
-  .checklist label.missed{
-    background: var(--bg-red);
-    border-color:#f7c7c7;
-  }
-  .checklist .task-text{ color:#111827; }
+    .title-card {
+      background: linear-gradient(180deg, #112a44, #0e2236);
+      border: 1px solid #203549;
+      color: #e6f0fb;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
 
-  .note-area{
-    margin-top:8px;
-    background: var(--card-2);
-    border:1px solid #d1dae6; border-radius:10px;
-    padding: 8px;
-  }
-  textarea{
-    width:100%; min-height:56px; resize: vertical; padding:8px; border-radius:8px; border:1px solid #cbd5e1; background:#fff; color:#111827; font-family:inherit; font-size:14px;
-  }
-  textarea:focus{ outline:2px solid #395b7c; border-color:#395b7c; }
+    .title-card h1 {
+      margin: 0;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      font-size: clamp(18px, 2.8vw, 26px);
+    }
 
-  /* Weekly */
-  .week-box{ display:flex; align-items:center; gap:8px; flex-wrap: wrap; margin-bottom: 8px; }
-  .weekday{ font-weight:700; color:#0f172a; margin: 4px 0; }
+    .period {
+      color: #cfe2ff;
+      font-weight: 600;
+      background: #1a3350;
+      border: 1px solid #274767;
+      padding: 6px 10px;
+      border-radius: 8px;
+    }
 
-  /* Monthly */
-  .month-block{ background:#fff; border:1px solid #e5e7eb; border-radius:10px; padding:10px; margin-bottom:10px; }
-  .month-name{ font-weight:800; color:#203a57; text-decoration: underline; margin-bottom:6px; }
+    .layout {
+      display: grid;
+      grid-template-columns: 1fr 290px;
+      gap: 16px;
+      margin-top: 16px;
+    }
 
-  /* Sidebar */
-  .sidebar{
-    position: sticky; top:10px; height: max-content;
-    background: #0f253c;
-    border:1px solid #29445e;
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    color:#e6f0fb;
-    padding: 12px;
-  }
-  .sidebar h3{
-    color:#f6d48b; border-bottom:1px solid #334e69; padding-bottom:6px; margin:10px 0 8px;
-  }
-  .side-checklist label{
-    display:flex; gap:8px; align-items:flex-start; margin-bottom:6px; background:#0f2b46; border:1px solid #2a4a66; border-radius:8px; padding:6px 8px; color:#eaf2ff;
-  }
-  .side-checklist input[type=checkbox]{ accent-color:#7ed957; }
-  .side-note{
-    background:#0f2b46; border:1px solid #2a4a66; border-radius:8px; padding:8px; color:#eaf2ff;
-  }
+    @media (max-width: 980px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+    }
 
-  .hint{
-    color:#dbeafe; font-size:12px; margin-top:6px;
-  }
+    .card {
+      background: var(--card);
+      border: 1px solid #d9e1ec;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 14px;
+    }
 
-  .chip{
-    display:inline-block; padding:2px 6px; border-radius:100px; background:#153455; color:#cfe2ff; border:1px solid #264d73; font-size:12px; margin-left:4px;
-  }
+    .card h2 {
+      margin: 4px 0 10px;
+      color: #0f172a;
+      border-bottom: 3px solid #2c4b6b;
+      padding-bottom: 6px;
+      font-size: clamp(16px, 2.3vw, 20px);
+    }
 
-  /* Treatments (new section) */
-  .treat-card{
-    background:#fff; border:1px solid #e5e7eb; border-radius:10px;
-    padding:10px; margin-bottom:10px;
-  }
-  .treat-header{
-    display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap;
-  }
-  .treat-title{
-    font-weight:800; color:#203a57;
-  }
-  .treat-controls{
-    display:flex; align-items:center; gap:8px; flex-wrap:wrap;
-  }
-  .treat-controls input[type=date]{ padding:6px 8px; border-radius:8px; border:1px solid #cbd5e1; background:#fff; color:#0f172a; }
-  .treat-controls .btn{ padding:6px 10px; }
-  .treat-body{
-    margin-top:8px; background: var(--card-2); border:1px solid #d1dae6; border-radius:10px; padding:10px;
-  }
-  .treat-recipe{
-    font-weight:700; color:#374151; margin-bottom:6px;
-  }
-  .method{
-    margin-top:6px; padding:8px; background:#fff; border:1px dashed #cbd5e1; border-radius:8px; color:#111827;
-  }
-  .treat-check{ margin-top:8px; }
-  .treat-check label{
-    display:flex; align-items:center; gap:8px; background:#fff; border:1px solid #e5e7eb; border-radius:8px; padding:6px 8px;
-  }
-  .treat-check input[type=checkbox]{ width:18px; height:18px; accent-color: var(--accent-green); }
-  .treat-check label.completed{ background: var(--bg-green); border-color:#bfe7c6; }
-  .treat-check label.missed{ background: var(--bg-red); border-color:#f7c7c7; }
-  .treat-note{ margin-top:8px; }
-</style>
+    .subhead {
+      font-weight: 700;
+      color: #1f2937;
+      margin-top: 10px;
+      margin-bottom: 6px;
+      text-decoration: underline;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    /* Daily controls */
+    .daily-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      background: var(--card-2);
+      border: 1px solid #d1dae6;
+      border-radius: 10px;
+      padding: 8px;
+      margin-bottom: 10px;
+    }
+
+    .daily-controls label {
+      font-weight: 600;
+      color: #0f172a;
+    }
+
+    .daily-controls input[type=date] {
+      padding: 6px 8px;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      background: #fff;
+      color: #0f172a;
+    }
+
+    .btn {
+      appearance: none;
+      border: 1px solid #1f3a56;
+      color: #e6f0fb;
+      background: #1b3250;
+      padding: 6px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .btn:hover {
+      background: #214369;
+    }
+
+    .btn.secondary {
+      background: #23425d;
+      border-color: #315876;
+      color: #e7f1ff;
+    }
+
+    .btn.secondary:hover {
+      background: #2a4f70;
+    }
+
+    /* Checklist */
+    .checklist label {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 6px 8px;
+      margin-bottom: 6px;
+      border-radius: 8px;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+    }
+
+    .checklist input[type=checkbox] {
+      width: 18px;
+      height: 18px;
+      margin-top: 2px;
+      cursor: pointer;
+      accent-color: var(--accent-green);
+    }
+
+    .checklist label.completed {
+      background: var(--bg-green);
+      border-color: #bfe7c6;
+    }
+
+    .checklist label.missed {
+      background: var(--bg-red);
+      border-color: #f7c7c7;
+    }
+
+    .checklist .task-text {
+      color: #111827;
+    }
+
+    .note-area {
+      margin-top: 8px;
+      background: var(--card-2);
+      border: 1px solid #d1dae6;
+      border-radius: 10px;
+      padding: 8px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 56px;
+      resize: vertical;
+      padding: 8px;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      background: #fff;
+      color: #111827;
+      font-family: inherit;
+      font-size: 14px;
+    }
+
+    textarea:focus {
+      outline: 2px solid #395b7c;
+      border-color: #395b7c;
+    }
+
+    /* Weekly */
+    .week-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+
+    .weekday {
+      font-weight: 700;
+      color: #0f172a;
+      margin: 4px 0;
+    }
+
+    /* Monthly */
+    .month-block {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    .month-name {
+      font-weight: 800;
+      color: #203a57;
+      text-decoration: underline;
+      margin-bottom: 6px;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      position: sticky;
+      top: 10px;
+      height: max-content;
+      background: #0f253c;
+      border: 1px solid #29445e;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      color: #e6f0fb;
+      padding: 12px;
+    }
+
+    .sidebar h3 {
+      color: #f6d48b;
+      border-bottom: 1px solid #334e69;
+      padding-bottom: 6px;
+      margin: 10px 0 8px;
+    }
+
+    .side-checklist label {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      margin-bottom: 6px;
+      background: #0f2b46;
+      border: 1px solid #2a4a66;
+      border-radius: 8px;
+      padding: 6px 8px;
+      color: #eaf2ff;
+    }
+
+    .side-checklist input[type=checkbox] {
+      accent-color: #7ed957;
+    }
+
+    .side-note {
+      background: #0f2b46;
+      border: 1px solid #2a4a66;
+      border-radius: 8px;
+      padding: 8px;
+      color: #eaf2ff;
+    }
+
+    .hint {
+      color: #dbeafe;
+      font-size: 12px;
+      margin-top: 6px;
+    }
+
+    .chip {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 100px;
+      background: #153455;
+      color: #cfe2ff;
+      border: 1px solid #264d73;
+      font-size: 12px;
+      margin-left: 4px;
+    }
+
+    /* Treatments (new section) */
+    .treat-card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    .treat-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .treat-title {
+      font-weight: 800;
+      color: #203a57;
+    }
+
+    .treat-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .treat-controls input[type=date] {
+      padding: 6px 8px;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      background: #fff;
+      color: #0f172a;
+    }
+
+    .treat-controls .btn {
+      padding: 6px 10px;
+    }
+
+    .treat-body {
+      margin-top: 8px;
+      background: var(--card-2);
+      border: 1px solid #d1dae6;
+      border-radius: 10px;
+      padding: 10px;
+    }
+
+    .treat-recipe {
+      font-weight: 700;
+      color: #374151;
+      margin-bottom: 6px;
+    }
+
+    .method {
+      margin-top: 6px;
+      padding: 8px;
+      background: #fff;
+      border: 1px dashed #cbd5e1;
+      border-radius: 8px;
+      color: #111827;
+    }
+
+    .treat-check {
+      margin-top: 8px;
+    }
+
+    .treat-check label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 6px 8px;
+    }
+
+    .treat-check input[type=checkbox] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--accent-green);
+    }
+
+    .treat-check label.completed {
+      background: var(--bg-green);
+      border-color: #bfe7c6;
+    }
+
+    .treat-check label.missed {
+      background: var(--bg-red);
+      border-color: #f7c7c7;
+    }
+
+    .treat-note {
+      margin-top: 8px;
+    }
+  </style>
 </head>
+
 <body>
   <div class="wrap">
     <div class="title-card">
       <h1>BRIDAL GLOW CALENDAR – 15 AUG 2025 to 1 DEC 2025</h1>
-      <button id="save-github" class="btn">💾 Save to GitHub</button>
-      <div class="period">Offline • Saved to this device • v3</div>
+      <div class="period">GitHub Synced • v3</div>
+      <button id="save-github" class="btn" style="background:#2c7a2c; border-color:#1e5d1e;">💾 Save to GitHub</button>
+      <button id="save-github" class="btn" style="background:#2c7a2c; border-color:#1e5d1e;">💾 Save to GitHub</button>
     </div>
 
     <div class="layout">
@@ -329,13 +538,13 @@
     </div>
   </div>
 
-<script>
-/* ========= CONFIG / DATA ========= */
+  <script>
+    /* ========= CONFIG / DATA ========= */
 
 /* ========= GITHUB CONFIG ========= */
-const GH_USERNAME = "YOUR_GITHUB_USERNAME";
-const GH_REPO     = "YOUR_REPO_NAME";
-const GH_TOKEN    = "YOUR_PERSONAL_ACCESS_TOKEN"; // ⚠ Exposed publicly
+const GH_USERNAME = "aneogi15";
+const GH_REPO     = "bridal-tracker";
+const GH_TOKEN    = "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"; // ⚠ Exposed publicly
 const GH_BRANCH   = "main";
 const DATA_FILE   = "data.json";
 let appData = {};
@@ -382,690 +591,707 @@ async function saveDataToGitHub() {
 }
 
 
-// Date window for the calendar
-const START_DATE = "2025-08-15";
-const END_DATE   = "2025-12-01";
+    // Date window for the calendar
+    const START_DATE = "2025-08-15";
+    const END_DATE = "2025-12-01";
 
-// STORAGE KEYS
-const KEYS = {
-  dailyMorning: "briglow_v3_daily_morning", // { 'YYYY-MM-DD': {index:boolean} }
-  dailyNight:   "briglow_v3_daily_night",   // { 'YYYY-MM-DD': {index:boolean} }
-  dailyNote:    "briglow_v3_daily_note",    // { 'YYYY-MM-DD': "text" }
+    // STORAGE KEYS
+    const KEYS = {
+      dailyMorning: "briglow_v3_daily_morning", // { 'YYYY-MM-DD': {index:boolean} }
+      dailyNight: "briglow_v3_daily_night",   // { 'YYYY-MM-DD': {index:boolean} }
+      dailyNote: "briglow_v3_daily_note",    // { 'YYYY-MM-DD': "text" }
 
-  weekly:       "briglow_v3_weekly",        // { 'YYYY-MM-DD(mon)': { Monday:bool, ... } }
-  weeklyNote:   "briglow_v3_weekly_note",   // { 'YYYY-MM-DD(mon)': "text" }
-  weekStart:    "briglow_v3_week_start",    // 'YYYY-MM-DD(mon)'
+      weekly: "briglow_v3_weekly",        // { 'YYYY-MM-DD(mon)': { Monday:bool, ... } }
+      weeklyNote: "briglow_v3_weekly_note",   // { 'YYYY-MM-DD(mon)': "text" }
+      weekStart: "briglow_v3_week_start",    // 'YYYY-MM-DD(mon)'
 
-  monthly:      "briglow_v3_monthly",       // { MonthName: { item:boolean } }
-  monthlyNote:  "briglow_v3_monthly_note",  // "text"
+      monthly: "briglow_v3_monthly",       // { MonthName: { item:boolean } }
+      monthlyNote: "briglow_v3_monthly_note",  // "text"
 
-  extraCare:    "briglow_v3_extra_care",    // { item:boolean }
-  oralBody:     "briglow_v3_oral_body",     // { item:boolean }
-  sidebarNote:  "briglow_v3_sidebar_note",  // "text"
+      extraCare: "briglow_v3_extra_care",    // { item:boolean }
+      oralBody: "briglow_v3_oral_body",     // { item:boolean }
+      sidebarNote: "briglow_v3_sidebar_note",  // "text"
 
-  additional:   "briglow_v3_additional",    // { item:boolean }
-  additionalNote:"briglow_v3_additional_note", // "text"
+      additional: "briglow_v3_additional",    // { item:boolean }
+      additionalNote: "briglow_v3_additional_note", // "text"
 
-  treatments:   "briglow_v3_treatments"     // { itemName: { 'YYYY-MM-DD': {done:bool, note:""} } }
-};
+      treatments: "briglow_v3_treatments"     // { itemName: { 'YYYY-MM-DD': {done:bool, note:""} } }
+    };
 
-// DAILY TASKS
-const MORNING_TASKS = [
-  "Drink lukewarm water with soaked methi dana (after thyroid medication)",
-  "Supplements: Amalaki Rasayan (2 tabs), Black raisins, Vit B12, Vit D, Follihair, Limcee",
-  "1 fruit of the day",
-  "Skincare:",
-  "Sheet mask (if it’s sheet mask day) → kept in fridge",
-  "Simple facewash (or Chemist at Play exfoliating wash if exfoliation day)",
-  "Rose water spray",
-  "Hyaluronic acid serum (dry)",
-  "Vitamin C serum",
-  "Gel moisturiser (Pond’s in summer / Nivea in winter)",
-  "Lip care: Boroline/ghee/makkhan overnight from previous night",
-  "Drink at least 4 litres water throughout the day"
-];
+    // DAILY TASKS
+    const MORNING_TASKS = [
+      "Drink lukewarm water with soaked methi dana (after thyroid medication)",
+      "Supplements: Amalaki Rasayan (2 tabs), Black raisins, Vit B12, Vit D, Follihair, Limcee",
+      "1 fruit of the day",
+      "Skincare:",
+      "Sheet mask (if it’s sheet mask day) → kept in fridge",
+      "Simple facewash (or Chemist at Play exfoliating wash if exfoliation day)",
+      "Rose water spray",
+      "Hyaluronic acid serum (dry)",
+      "Vitamin C serum",
+      "Gel moisturiser (Pond’s in summer / Nivea in winter)",
+      "Lip care: Boroline/ghee/makkhan overnight from previous night",
+      "Drink at least 4 litres water throughout the day"
+    ];
 
-const NIGHT_TASKS = [
-  "Remove makeup (if any)",
-  "Apply leftover serum from sheet mask (if mask day)",
-  "Face wash",
-  "Alpha Arbutin serum",
-  "Moisturiser (or aloe + Vit E cream twice a week)",
-  "Light dinner; sauf + ajwain tea if bloated"
-];
+    const NIGHT_TASKS = [
+      "Remove makeup (if any)",
+      "Apply leftover serum from sheet mask (if mask day)",
+      "Face wash",
+      "Alpha Arbutin serum",
+      "Moisturiser (or aloe + Vit E cream twice a week)",
+      "Light dinner; sauf + ajwain tea if bloated"
+    ];
 
-// WEEKLY TASKS ordered Monday -> Sunday
-const WEEKLY_TASKS = [
-  { day: "Monday",    task: "Body polishing pack (potato juice + lemon + curd + coffee + coconut oil + besan)" },
-  { day: "Tuesday",   task: "Curry leaves (daily), black sesame paste (every alternate day)" },
-  { day: "Wednesday", task: "Bridal face mask (turmeric + nescafe + potato + honey + tomato)" },
-  { day: "Thursday",  task: "Scalp cleaning (aloe vera + lemon juice + neem powder)" },
-  { day: "Friday",    task: "Hair mask (Khadi Naturals) instead of conditioner" },
-  { day: "Saturday",  task: "D-Tan pack (potato + besan + haldi + coffee + curd)" },
-  { day: "Sunday",    task: "Egg white mask before blackhead/whitehead removal" }
-];
+    // WEEKLY TASKS ordered Monday -> Sunday
+    const WEEKLY_TASKS = [
+      { day: "Monday", task: "Body polishing pack (potato juice + lemon + curd + coffee + coconut oil + besan)" },
+      { day: "Tuesday", task: "Curry leaves (daily), black sesame paste (every alternate day)" },
+      { day: "Wednesday", task: "Bridal face mask (turmeric + nescafe + potato + honey + tomato)" },
+      { day: "Thursday", task: "Scalp cleaning (aloe vera + lemon juice + neem powder)" },
+      { day: "Friday", task: "Hair mask (Khadi Naturals) instead of conditioner" },
+      { day: "Saturday", task: "D-Tan pack (potato + besan + haldi + coffee + curd)" },
+      { day: "Sunday", task: "Egg white mask before blackhead/whitehead removal" }
+    ];
 
-// MONTHLY PURCHASE PLAN
-const MONTHLY_PURCHASES = {
-  "AUGUST (15–31)": [
-    "Primer", "Kajal", "Loose powder", "1 nude lipstick shade"
-  ],
-  "SEPTEMBER": [
-    "Mascara", "Liquid sindoor", "Lip gloss", "1 red nail polish", "Shower gel + loofah"
-  ],
-  "OCTOBER": [
-    "Highlighter", "Lip tint", "1 nude pink nail polish", "Bindi",
-    "Shampoo + conditioner + hair serum + leave-in conditioner"
-  ],
-  "NOVEMBER": [
-    "4-in-1 brush", "Chooriyan + kada + jhumkas", "Saree kamarband", "Ethnic watch",
-    "Nose pin (artificial)", "Feminine hygiene products + intimate wash", "Detangling comb + glycerin"
-  ]
-};
+    // MONTHLY PURCHASE PLAN
+    const MONTHLY_PURCHASES = {
+      "AUGUST (15–31)": [
+        "Primer", "Kajal", "Loose powder", "1 nude lipstick shade"
+      ],
+      "SEPTEMBER": [
+        "Mascara", "Liquid sindoor", "Lip gloss", "1 red nail polish", "Shower gel + loofah"
+      ],
+      "OCTOBER": [
+        "Highlighter", "Lip tint", "1 nude pink nail polish", "Bindi",
+        "Shampoo + conditioner + hair serum + leave-in conditioner"
+      ],
+      "NOVEMBER": [
+        "4-in-1 brush", "Chooriyan + kada + jhumkas", "Saree kamarband", "Ethnic watch",
+        "Nose pin (artificial)", "Feminine hygiene products + intimate wash", "Detangling comb + glycerin"
+      ]
+    };
 
-// SIDEBAR CONTENT
-const EXTRA_CARE = [
-  "For pigmentation: Zeelab glycolic cream (alternate nights if needed).",
-  "For skin barrier repair: Siloderm cream.",
-  "Moisturiser alternative: Emolene moisturiser."
-];
+    // SIDEBAR CONTENT
+    const EXTRA_CARE = [
+      "For pigmentation: Zeelab glycolic cream (alternate nights if needed).",
+      "For skin barrier repair: Siloderm cream.",
+      "Moisturiser alternative: Emolene moisturiser."
+    ];
 
-const ORAL_BODY = [
-  "Brush teeth daily, scrape tongue.",
-  "Weekly: mild body scrub or polishing."
-];
+    const ORAL_BODY = [
+      "Brush teeth daily, scrape tongue.",
+      "Weekly: mild body scrub or polishing."
+    ];
 
-// VI. ADDITIONAL SUGGESTIONS
-const ADDITIONAL_SUGGESTIONS = [
-  "Salon facials/cleanups – Start monthly from August, then every 2 weeks in November.",
-  "Home steam facial – Once a week with tulsi + neem leaves.",
-  "Dry brushing – 3 times a week before shower for blood circulation & exfoliation.",
-  "Yoga / light workout – 20 min daily to improve blood flow & reduce puffiness.",
-  "Sleep – Minimum 7–8 hrs; no screens 30 mins before bed.",
-  "November bridal facial series – Book a gold/glow facial package at a trusted salon (3–4 sittings in Nov).",
-  "Avoid last-minute experiments – No new skincare after 20 Nov to prevent reactions."
-];
+    // VI. ADDITIONAL SUGGESTIONS
+    const ADDITIONAL_SUGGESTIONS = [
+      "Salon facials/cleanups – Start monthly from August, then every 2 weeks in November.",
+      "Home steam facial – Once a week with tulsi + neem leaves.",
+      "Dry brushing – 3 times a week before shower for blood circulation & exfoliation.",
+      "Yoga / light workout – 20 min daily to improve blood flow & reduce puffiness.",
+      "Sleep – Minimum 7–8 hrs; no screens 30 mins before bed.",
+      "November bridal facial series – Book a gold/glow facial package at a trusted salon (3–4 sittings in Nov).",
+      "Avoid last-minute experiments – No new skincare after 20 Nov to prevent reactions."
+    ];
 
-// TREATMENTS (Face Masks, Packs & Treatments)
-const TREATMENTS = [
-  {
-    name: "Bridal Face Mask",
-    freq: "As needed",
-    recipe: [
-      "Roast turmeric",
-      "1 small pouch Nescafe",
-      "Juice of ¼ grated potato",
-      "Honey"
-    ],
-    method: "Mix all ingredients. Rub onto face using half a tomato as a scrubber."
-  },
-  {
-    name: "D-Tan Pack",
-    freq: "As needed / weekly",
-    recipe: [
-      "Potato juice",
-      "Besan",
-      "Haldi (turmeric)",
-      "Coffee",
-      "Curd"
-    ],
-    method: "Mix and apply on face/body for tan removal. Rinse after ~20 mins."
-  },
-  {
-    name: "Body Polishing Pack",
-    freq: "Weekly",
-    recipe: [
-      "1 potato juice",
-      "½ lemon juice",
-      "1 tbsp curd",
-      "2 tsp coffee",
-      "1 tsp coconut oil",
-      "1 tsp besan"
-    ],
-    method: "Mix and apply all over body. Let it dry, then scrub off gently."
-  },
-  {
-    name: "Scalp Cleaning Pack (weekly)",
-    freq: "Weekly",
-    recipe: [
-      "2 tsp aloe vera gel",
-      "2 tsp lemon juice",
-      "½ tsp neem powder"
-    ],
-    method: "Apply on scalp only. Massage, leave 20 mins, rinse with shampoo."
-  },
-  {
-    name: "Grey Hair Prevention Paste (every 2 days)",
-    freq: "Every 2 days (eat)",
-    recipe: [
-      "Black sesame seeds (ground)",
-      "Honey"
-    ],
-    method: "Mix into a paste. Eat 1 tbsp anytime of the day."
-  },
-  {
-    name: "Egg White Mask (weekly)",
-    freq: "Weekly",
-    recipe: [
-      "1 egg white (whisked)"
-    ],
-    method: "Apply on face, let partially dry, then remove blackheads/whiteheads."
-  },
-  {
-    name: "Sheet Mask Routine (every 4 days)",
-    freq: "Every 4 days (AM, before face wash)",
-    recipe: [
-      "Keep sheet mask in fridge for 20 mins before use",
-      "Use before morning face wash"
-    ],
-    method: "Apply chilled sheet mask, finish with serums/moisturiser as per routine."
-  }
-];
+    // TREATMENTS (Face Masks, Packs & Treatments)
+    const TREATMENTS = [
+      {
+        name: "Bridal Face Mask",
+        freq: "As needed",
+        recipe: [
+          "Roast turmeric",
+          "1 small pouch Nescafe",
+          "Juice of ¼ grated potato",
+          "Honey"
+        ],
+        method: "Mix all ingredients. Rub onto face using half a tomato as a scrubber."
+      },
+      {
+        name: "D-Tan Pack",
+        freq: "As needed / weekly",
+        recipe: [
+          "Potato juice",
+          "Besan",
+          "Haldi (turmeric)",
+          "Coffee",
+          "Curd"
+        ],
+        method: "Mix and apply on face/body for tan removal. Rinse after ~20 mins."
+      },
+      {
+        name: "Body Polishing Pack",
+        freq: "Weekly",
+        recipe: [
+          "1 potato juice",
+          "½ lemon juice",
+          "1 tbsp curd",
+          "2 tsp coffee",
+          "1 tsp coconut oil",
+          "1 tsp besan"
+        ],
+        method: "Mix and apply all over body. Let it dry, then scrub off gently."
+      },
+      {
+        name: "Scalp Cleaning Pack (weekly)",
+        freq: "Weekly",
+        recipe: [
+          "2 tsp aloe vera gel",
+          "2 tsp lemon juice",
+          "½ tsp neem powder"
+        ],
+        method: "Apply on scalp only. Massage, leave 20 mins, rinse with shampoo."
+      },
+      {
+        name: "Grey Hair Prevention Paste (every 2 days)",
+        freq: "Every 2 days (eat)",
+        recipe: [
+          "Black sesame seeds (ground)",
+          "Honey"
+        ],
+        method: "Mix into a paste. Eat 1 tbsp anytime of the day."
+      },
+      {
+        name: "Egg White Mask (weekly)",
+        freq: "Weekly",
+        recipe: [
+          "1 egg white (whisked)"
+        ],
+        method: "Apply on face, let partially dry, then remove blackheads/whiteheads."
+      },
+      {
+        name: "Sheet Mask Routine (every 4 days)",
+        freq: "Every 4 days (AM, before face wash)",
+        recipe: [
+          "Keep sheet mask in fridge for 20 mins before use",
+          "Use before morning face wash"
+        ],
+        method: "Apply chilled sheet mask, finish with serums/moisturiser as per routine."
+      }
+    ];
 
-/* ========= HELPERS ========= */
-}
-function clampDateToRange(iso){
-  if (iso < START_DATE) return START_DATE;
-  if (iso > END_DATE) return END_DATE;
-  return iso;
-}
-function toISO(d){
-  const pad = n => String(n).padStart(2,'0');
-  return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
-}
-function parseISO(iso){
-  const [y,m,d] = iso.split("-").map(Number);
-  return new Date(y,m-1,d);
-}
-function addDays(iso, delta){
-  const d = parseISO(iso);
-  d.setDate(d.getDate()+delta);
-  return toISO(d);
-}
-function mondayOf(iso){
-  const d = parseISO(iso);
-  const day = d.getDay(); // 0 Sun ... 1 Mon
-  const diff = (day === 0 ? -6 : 1 - day);
-  d.setDate(d.getDate()+diff);
-  return toISO(d);
-}
+    /* ========= HELPERS ========= */
+        }
+        async function saveDataToGitHub(newData) {
+      await fetch("https://api.github.com/repos/aneogi15/bridal-tracker/dispatches", {
+        method: "POST",
+        headers: {
+          "Accept": "application/vnd.github+json",
+          "Authorization": "Bearer " + GITHUB_PROXY_KEY, // see note below
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          event_type: "update-data",
+          client_payload: {
+            new_data: JSON.stringify(newData)
+          }
+        })
+      });
+    }
+    function clampDateToRange(iso) {
+      if (iso < START_DATE) return START_DATE;
+      if (iso > END_DATE) return END_DATE;
+      return iso;
+    }
+    function toISO(d) {
+      const pad = n => String(n).padStart(2, '0');
+      return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+    }
+    function parseISO(iso) {
+      const [y, m, d] = iso.split("-").map(Number);
+      return new Date(y, m - 1, d);
+    }
+    function addDays(iso, delta) {
+      const d = parseISO(iso);
+      d.setDate(d.getDate() + delta);
+      return toISO(d);
+    }
+    function mondayOf(iso) {
+      const d = parseISO(iso);
+      const day = d.getDay(); // 0 Sun ... 1 Mon
+      const diff = (day === 0 ? -6 : 1 - day);
+      d.setDate(d.getDate() + diff);
+      return toISO(d);
+    }
 
-/* ========= DAILY RENDER ========= */
-function renderChecklist(container, items, stateObj){
-  container.innerHTML = "";
-  items.forEach((txt, idx) => {
-    const label = document.createElement("label");
-    const cb = document.createElement("input");
-    cb.type = "checkbox";
+    /* ========= DAILY RENDER ========= */
+    function renderChecklist(container, items, stateObj) {
+      container.innerHTML = "";
+      items.forEach((txt, idx) => {
+        const label = document.createElement("label");
+        const cb = document.createElement("input");
+        cb.type = "checkbox";
 
-    const isHeader = txt.trim().endsWith(":");
-    if (isHeader) cb.style.display = "none";
+        const isHeader = txt.trim().endsWith(":");
+        if (isHeader) cb.style.display = "none";
 
-    const span = document.createElement("span");
-    span.className = "task-text";
-    span.textContent = txt;
+        const span = document.createElement("span");
+        span.className = "task-text";
+        span.textContent = txt;
 
-    cb.checked = !!stateObj[idx];
-    label.classList.toggle("completed", cb.checked && !isHeader);
-    label.classList.toggle("missed", !cb.checked && !isHeader);
+        cb.checked = !!stateObj[idx];
+        label.classList.toggle("completed", cb.checked && !isHeader);
+        label.classList.toggle("missed", !cb.checked && !isHeader);
 
-    cb.addEventListener("change", () => {
-      stateObj[idx] = cb.checked;
-      label.classList.toggle("completed", cb.checked && !isHeader);
-      label.classList.toggle("missed", !cb.checked && !isHeader);
-    });
+        cb.addEventListener("change", () => {
+          stateObj[idx] = cb.checked;
+          label.classList.toggle("completed", cb.checked && !isHeader);
+          label.classList.toggle("missed", !cb.checked && !isHeader);
+        });
 
-    label.appendChild(cb);
-    label.appendChild(span);
-    container.appendChild(label);
-  });
-}
+        label.appendChild(cb);
+        label.appendChild(span);
+        container.appendChild(label);
+      });
+    }
 
-function loadDailyForDate(iso){
-  const allMorning = ((appData[KEYS.dailyMorning) || {}));
-  const morningState = allMorning[iso] || {};
-  renderChecklist(document.getElementById("morning-list"), MORNING_TASKS, morningState);
+    function loadDailyForDate(iso) {
+      const allMorning = (appData[KEYS.dailyMorning] || {});
+      const morningState = allMorning[iso] || {};
+      renderChecklist(document.getElementById("morning-list"), MORNING_TASKS, morningState);
 
-  const allNight = ((appData[KEYS.dailyNight) || {}));
-  const nightState = allNight[iso] || {};
-  renderChecklist(document.getElementById("night-list"), NIGHT_TASKS, nightState);
+      const allNight = (appData[KEYS.dailyNight] || {});
+      const nightState = allNight[iso] || {};
+      renderChecklist(document.getElementById("night-list"), NIGHT_TASKS, nightState);
 
-  const allNotes = ((appData[KEYS.dailyNote) || {}));
-  const note = allNotes[iso] || "";
-  const noteEl = document.getElementById("daily-note");
-  noteEl.value = note;
+      const allNotes = (appData[KEYS.dailyNote] || {});
+      const note = allNotes[iso] || "";
+      const noteEl = document.getElementById("daily-note");
+      noteEl.value = note;
 
-  const saveDaily = () => {
-    allMorning[iso] = {};
-    [...document.querySelectorAll("#morning-list label")].forEach((lbl, i) => {
-      const cb = lbl.querySelector('input[type="checkbox"]');
-      if (cb) allMorning[iso][i] = cb.checked;
-    });
-    appData[KEYS.dailyMorning] = allMorning;
+      const saveDaily = () => {
+        allMorning[iso] = {};
+        [...document.querySelectorAll("#morning-list label")].forEach((lbl, i) => {
+          const cb = lbl.querySelector('input[type="checkbox"]');
+          if (cb) allMorning[iso][i] = cb.checked;
+        });
+        appData[KEYS.dailyMorning] = allMorning;
 
-    allNight[iso] = {};
-    [...document.querySelectorAll("#night-list label")].forEach((lbl, i) => {
-      const cb = lbl.querySelector('input[type="checkbox"]');
-      if (cb) allNight[iso][i] = cb.checked;
-    });
-    appData[KEYS.dailyNight] = allNight;
+        allNight[iso] = {};
+        [...document.querySelectorAll("#night-list label")].forEach((lbl, i) => {
+          const cb = lbl.querySelector('input[type="checkbox"]');
+          if (cb) allNight[iso][i] = cb.checked;
+        });
+        appData[KEYS.dailyNight] = allNight;
 
-    const notes = ((appData[KEYS.dailyNote) || {}));
-    notes[iso] = document.getElementById("daily-note").value || "";
-    appData[KEYS.dailyNote] = notes;
-  };
+        const notes = (appData[KEYS.dailyNote] || {});
+        notes[iso] = document.getElementById("daily-note").value || "";
+        appData[KEYS.dailyNote] = notes;
+      };
 
-  document.getElementById("morning-list").onchange = saveDaily;
-  document.getElementById("night-list").onchange = saveDaily;
-  noteEl.oninput = saveDaily;
-}
+      document.getElementById("morning-list").onchange = saveDaily;
+      document.getElementById("night-list").onchange = saveDaily;
+      noteEl.oninput = saveDaily;
+    }
 
-/* ========= WEEKLY RENDER ========= */
-function renderWeekly(weekStartISO){
-  const container = document.getElementById("weekly-list");
-  container.innerHTML = "";
+    /* ========= WEEKLY RENDER ========= */
+    function renderWeekly(weekStartISO) {
+      const container = document.getElementById("weekly-list");
+      container.innerHTML = "";
 
-  const weeklyAll = ((appData[KEYS.weekly) || {}));
-  const weekState = weeklyAll[weekStartISO] || {};
+      const weeklyAll = (appData[KEYS.weekly] || {});
+      const weekState = weeklyAll[weekStartISO] || {};
 
-  WEEKLY_TASKS.forEach(({day, task}) => {
-    const wrap = document.createElement("div");
-    wrap.className = "checklist";
+      WEEKLY_TASKS.forEach(({ day, task }) => {
+        const wrap = document.createElement("div");
+        wrap.className = "checklist";
 
-    const inner = document.createElement("label");
-    const cb = document.createElement("input");
-    cb.type = "checkbox";
-    cb.checked = !!weekState[day];
+        const inner = document.createElement("label");
+        const cb = document.createElement("input");
+        cb.type = "checkbox";
+        cb.checked = !!weekState[day];
 
-    const span = document.createElement("span");
-    span.className = "task-text";
-    span.textContent = `${day}: ${task}`;
+        const span = document.createElement("span");
+        span.className = "task-text";
+        span.textContent = `${day}: ${task}`;
 
-    inner.appendChild(cb);
-    inner.appendChild(span);
-    wrap.appendChild(inner);
+        inner.appendChild(cb);
+        inner.appendChild(span);
+        wrap.appendChild(inner);
 
-    inner.classList.toggle("completed", cb.checked);
-    inner.classList.toggle("missed", !cb.checked);
+        inner.classList.toggle("completed", cb.checked);
+        inner.classList.toggle("missed", !cb.checked);
 
-    cb.addEventListener("change", () => {
-      const all = ((appData[KEYS.weekly) || {}));
-      if (!all[weekStartISO]) all[weekStartISO] = {};
-      all[weekStartISO][day] = cb.checked;
-      appData[KEYS.weekly] = all;
+        cb.addEventListener("change", () => {
+          const all = (appData[KEYS.weekly] || {});
+          if (!all[weekStartISO]) all[weekStartISO] = {};
+          all[weekStartISO][day] = cb.checked;
+          appData[KEYS.weekly] = all;
 
-      inner.classList.toggle("completed", cb.checked);
-      inner.classList.toggle("missed", !cb.checked);
-    });
+          inner.classList.toggle("completed", cb.checked);
+          inner.classList.toggle("missed", !cb.checked);
+        });
 
-    container.appendChild(wrap);
-  });
-
-  const noteAll = ((appData[KEYS.weeklyNote) || {}));
-  const note = noteAll[weekStartISO] || "";
-  const noteEl = document.getElementById("weekly-note");
-  noteEl.value = note;
-  noteEl.oninput = () => {
-    const nAll = ((appData[KEYS.weeklyNote) || {}));
-    nAll[weekStartISO] = noteEl.value || "";
-    appData[KEYS.weeklyNote] = nAll;
-  };
-}
-
-/* ========= MONTHLY RENDER ========= */
-function renderMonthly(){
-  const container = document.getElementById("monthly-list");
-  container.innerHTML = "";
-  const monthlyAll = ((appData[KEYS.monthly) || {}));
-
-  Object.entries(MONTHLY_PURCHASES).forEach(([month, items]) => {
-    const block = document.createElement("div");
-    block.className = "month-block";
-    const name = document.createElement("div");
-    name.className = "month-name";
-    name.textContent = month;
-    block.appendChild(name);
-
-    const list = document.createElement("div");
-    list.className = "checklist";
-
-    const monthState = monthlyAll[month] || {};
-    items.forEach((it) => {
-      const label = document.createElement("label");
-      const cb = document.createElement("input");
-      cb.type = "checkbox";
-      cb.checked = !!monthState[it];
-
-      const span = document.createElement("span");
-      span.className = "task-text";
-      span.textContent = it;
-
-      label.classList.toggle("completed", cb.checked);
-      label.classList.toggle("missed", !cb.checked);
-
-      cb.addEventListener("change", () => {
-        const all = ((appData[KEYS.monthly) || {}));
-        if (!all[month]) all[month] = {};
-        all[month][it] = cb.checked;
-        appData[KEYS.monthly] = all;
-        label.classList.toggle("completed", cb.checked);
-        label.classList.toggle("missed", !cb.checked);
+        container.appendChild(wrap);
       });
 
-      label.appendChild(cb);
-      label.appendChild(span);
-      list.appendChild(label);
-    });
+      const noteAll = (appData[KEYS.weeklyNote] || {});
+      const note = noteAll[weekStartISO] || "";
+      const noteEl = document.getElementById("weekly-note");
+      noteEl.value = note;
+      noteEl.oninput = () => {
+        const nAll = (appData[KEYS.weeklyNote] || {});
+        nAll[weekStartISO] = noteEl.value || "";
+        appData[KEYS.weeklyNote] = nAll;
+      };
+    }
 
-    block.appendChild(list);
-    container.appendChild(block);
-  });
+    /* ========= MONTHLY RENDER ========= */
+    function renderMonthly() {
+      const container = document.getElementById("monthly-list");
+      container.innerHTML = "";
+      const monthlyAll = (appData[KEYS.monthly] || {});
 
-  const monthlyNote = document.getElementById("monthly-note");
-  monthlyNote.value = ((appData[KEYS.monthlyNote) || "") || "";
-  monthlyNote.oninput = () => {
-    appData[KEYS.monthlyNote] = monthlyNote.value || "";
-  };
-}
+      Object.entries(MONTHLY_PURCHASES).forEach(([month, items]) => {
+        const block = document.createElement("div");
+        block.className = "month-block";
+        const name = document.createElement("div");
+        name.className = "month-name";
+        name.textContent = month;
+        block.appendChild(name);
 
-/* ========= SIDEBAR ========= */
-function renderSidebar(){
-  const extraEl = document.getElementById("extra-care-list");
-  const oralEl = document.getElementById("oral-body-list");
-  extraEl.innerHTML = ""; oralEl.innerHTML = "";
+        const list = document.createElement("div");
+        list.className = "checklist";
 
-  const extraState = ((appData[KEYS.extraCare) || {}));
-  EXTRA_CARE.forEach((txt) => {
-    const label = document.createElement("label");
-    const cb = document.createElement("input");
-    cb.type = "checkbox";
-    cb.checked = !!extraState[txt];
+        const monthState = monthlyAll[month] || {};
+        items.forEach((it) => {
+          const label = document.createElement("label");
+          const cb = document.createElement("input");
+          cb.type = "checkbox";
+          cb.checked = !!monthState[it];
 
-    const span = document.createElement("span");
-    span.textContent = txt;
+          const span = document.createElement("span");
+          span.className = "task-text";
+          span.textContent = it;
 
-    cb.addEventListener("change", () => {
-      const s = ((appData[KEYS.extraCare) || {}));
-      s[txt] = cb.checked;
-      appData[KEYS.extraCare] = s;
-    });
+          label.classList.toggle("completed", cb.checked);
+          label.classList.toggle("missed", !cb.checked);
 
-    label.appendChild(cb); label.appendChild(span);
-    extraEl.appendChild(label);
-  });
+          cb.addEventListener("change", () => {
+            const all = (appData[KEYS.monthly] || {});
+            if (!all[month]) all[month] = {};
+            all[month][it] = cb.checked;
+            appData[KEYS.monthly] = all;
+            label.classList.toggle("completed", cb.checked);
+            label.classList.toggle("missed", !cb.checked);
+          });
 
-  const oralState = ((appData[KEYS.oralBody) || {}));
-  ORAL_BODY.forEach((txt) => {
-    const label = document.createElement("label");
-    const cb = document.createElement("input");
-    cb.type = "checkbox";
-    cb.checked = !!oralState[txt];
+          label.appendChild(cb);
+          label.appendChild(span);
+          list.appendChild(label);
+        });
 
-    const span = document.createElement("span");
-    span.textContent = txt;
+        block.appendChild(list);
+        container.appendChild(block);
+      });
 
-    cb.addEventListener("change", () => {
-      const s = ((appData[KEYS.oralBody) || {}));
-      s[txt] = cb.checked;
-      appData[KEYS.oralBody] = s;
-    });
+      const monthlyNote = document.getElementById("monthly-note");
+      monthlyNote.value = (appData[KEYS.monthlyNote] || "") || "";
+      monthlyNote.oninput = () => {
+        appData[KEYS.monthlyNote] = monthlyNote.value || "";
+      };
+    }
 
-    label.appendChild(cb); label.appendChild(span);
-    oralEl.appendChild(label);
-  });
+    /* ========= SIDEBAR ========= */
+    function renderSidebar() {
+      const extraEl = document.getElementById("extra-care-list");
+      const oralEl = document.getElementById("oral-body-list");
+      extraEl.innerHTML = ""; oralEl.innerHTML = "";
 
-  const sideNote = document.getElementById("sidebar-note");
-  sideNote.value = ((appData[KEYS.sidebarNote) || "") || "";
-  sideNote.oninput = () => {
-    appData[KEYS.sidebarNote] = sideNote.value || "";
-  };
-}
+      const extraState = (appData[KEYS.extraCare] || {});
+      EXTRA_CARE.forEach((txt) => {
+        const label = document.createElement("label");
+        const cb = document.createElement("input");
+        cb.type = "checkbox";
+        cb.checked = !!extraState[txt];
 
-/* ========= ADDITIONAL SUGGESTIONS ========= */
-function renderAdditional(){
-  const container = document.getElementById("additional-list");
-  container.innerHTML = "";
-  const state = ((appData[KEYS.additional) || {}));
+        const span = document.createElement("span");
+        span.textContent = txt;
 
-  ADDITIONAL_SUGGESTIONS.forEach((txt) => {
-    const label = document.createElement("label");
-    const cb = document.createElement("input");
-    cb.type = "checkbox";
-    cb.checked = !!state[txt];
+        cb.addEventListener("change", () => {
+          const s = (appData[KEYS.extraCare] || {});
+          s[txt] = cb.checked;
+          appData[KEYS.extraCare] = s;
+        });
 
-    const span = document.createElement("span");
-    span.className = "task-text";
-    span.textContent = txt;
+        label.appendChild(cb); label.appendChild(span);
+        extraEl.appendChild(label);
+      });
 
-    label.classList.toggle("completed", cb.checked);
-    label.classList.toggle("missed", !cb.checked);
+      const oralState = (appData[KEYS.oralBody] || {});
+      ORAL_BODY.forEach((txt) => {
+        const label = document.createElement("label");
+        const cb = document.createElement("input");
+        cb.type = "checkbox";
+        cb.checked = !!oralState[txt];
 
-    cb.addEventListener("change", () => {
-      const s = ((appData[KEYS.additional) || {}));
-      s[txt] = cb.checked;
-      appData[KEYS.additional] = s;
-      label.classList.toggle("completed", cb.checked);
-      label.classList.toggle("missed", !cb.checked);
-    });
+        const span = document.createElement("span");
+        span.textContent = txt;
 
-    label.appendChild(cb);
-    label.appendChild(span);
-    container.appendChild(label);
-  });
+        cb.addEventListener("change", () => {
+          const s = (appData[KEYS.oralBody] || {});
+          s[txt] = cb.checked;
+          appData[KEYS.oralBody] = s;
+        });
 
-  const noteEl = document.getElementById("additional-note");
-  noteEl.value = ((appData[KEYS.additionalNote) || "") || "";
-  noteEl.oninput = () => {
-    appData[KEYS.additionalNote] = noteEl.value || "";
-  };
-}
+        label.appendChild(cb); label.appendChild(span);
+        oralEl.appendChild(label);
+      });
 
-/* ========= TREATMENTS (Masks, Packs & Treatments) ========= */
-function getTreatmentState(){ return ((appData[KEYS.treatments) || {})); }
-function saveTreatmentState(state){ appData[KEYS.treatments] = state; }
+      const sideNote = document.getElementById("sidebar-note");
+      sideNote.value = (appData[KEYS.sidebarNote] || "") || "";
+      sideNote.oninput = () => {
+        appData[KEYS.sidebarNote] = sideNote.value || "";
+      };
+    }
 
-function treatmentCard(item){
-  const wrap = document.createElement("div");
-  wrap.className = "treat-card";
+    /* ========= ADDITIONAL SUGGESTIONS ========= */
+    function renderAdditional() {
+      const container = document.getElementById("additional-list");
+      container.innerHTML = "";
+      const state = (appData[KEYS.additional] || {});
 
-  const head = document.createElement("div");
-  head.className = "treat-header";
+      ADDITIONAL_SUGGESTIONS.forEach((txt) => {
+        const label = document.createElement("label");
+        const cb = document.createElement("input");
+        cb.type = "checkbox";
+        cb.checked = !!state[txt];
 
-  const title = document.createElement("div");
-  title.className = "treat-title";
-  title.textContent = item.name;
+        const span = document.createElement("span");
+        span.className = "task-text";
+        span.textContent = txt;
 
-  const controls = document.createElement("div");
-  controls.className = "treat-controls";
+        label.classList.toggle("completed", cb.checked);
+        label.classList.toggle("missed", !cb.checked);
 
-  const dateLabel = document.createElement("label");
-  dateLabel.textContent = "Date:";
-  dateLabel.style.fontWeight = "600";
-  dateLabel.style.color = "#0f172a";
+        cb.addEventListener("change", () => {
+          const s = (appData[KEYS.additional] || {});
+          s[txt] = cb.checked;
+          appData[KEYS.additional] = s;
+          label.classList.toggle("completed", cb.checked);
+          label.classList.toggle("missed", !cb.checked);
+        });
 
-  const dateInput = document.createElement("input");
-  dateInput.type = "date";
-  const todayISO = clampDateToRange(toISO(new Date()));
-  dateInput.value = todayISO;
+        label.appendChild(cb);
+        label.appendChild(span);
+        container.appendChild(label);
+      });
 
-  const todayBtn = document.createElement("button");
-  todayBtn.className = "btn";
-  todayBtn.textContent = "Today";
+      const noteEl = document.getElementById("additional-note");
+      noteEl.value = (appData[KEYS.additionalNote] || "") || "";
+      noteEl.oninput = () => {
+        appData[KEYS.additionalNote] = noteEl.value || "";
+      };
+    }
 
-  const prevBtn = document.createElement("button");
-  prevBtn.className = "btn secondary";
-  prevBtn.textContent = "◀ Prev";
+    /* ========= TREATMENTS (Masks, Packs & Treatments) ========= */
+    function getTreatmentState() { return (appData[KEYS.treatments] || {}); }
+    function saveTreatmentState(state) { appData[KEYS.treatments] = state; }
 
-  const nextBtn = document.createElement("button");
-  nextBtn.className = "btn secondary";
-  nextBtn.textContent = "Next ▶";
+    function treatmentCard(item) {
+      const wrap = document.createElement("div");
+      wrap.className = "treat-card";
 
-  const freqChip = document.createElement("span");
-  freqChip.className = "chip";
-  freqChip.textContent = item.freq;
+      const head = document.createElement("div");
+      head.className = "treat-header";
 
-  controls.appendChild(dateLabel);
-  controls.appendChild(dateInput);
-  controls.appendChild(todayBtn);
-  controls.appendChild(prevBtn);
-  controls.appendChild(nextBtn);
-  controls.appendChild(freqChip);
+      const title = document.createElement("div");
+      title.className = "treat-title";
+      title.textContent = item.name;
 
-  head.appendChild(title);
-  head.appendChild(controls);
+      const controls = document.createElement("div");
+      controls.className = "treat-controls";
 
-  const body = document.createElement("div");
-  body.className = "treat-body";
+      const dateLabel = document.createElement("label");
+      dateLabel.textContent = "Date:";
+      dateLabel.style.fontWeight = "600";
+      dateLabel.style.color = "#0f172a";
 
-  const recipeTitle = document.createElement("div");
-  recipeTitle.className = "treat-recipe";
-  recipeTitle.textContent = "Ingredients";
+      const dateInput = document.createElement("input");
+      dateInput.type = "date";
+      const todayISO = clampDateToRange(toISO(new Date()));
+      dateInput.value = todayISO;
 
-  const ul = document.createElement("ul");
-  ul.style.margin = "6px 0 6px 18px";
-  ul.style.padding = "0";
-  item.recipe.forEach(r => {
-    const li = document.createElement("li");
-    li.textContent = r;
-    ul.appendChild(li);
-  });
+      const todayBtn = document.createElement("button");
+      todayBtn.className = "btn";
+      todayBtn.textContent = "Today";
 
-  const method = document.createElement("div");
-  method.className = "method";
-  method.textContent = `Method: ${item.method}`;
+      const prevBtn = document.createElement("button");
+      prevBtn.className = "btn secondary";
+      prevBtn.textContent = "◀ Prev";
 
-  const checkWrap = document.createElement("div");
-  checkWrap.className = "treat-check";
-  const innerLabel = document.createElement("label");
-  const cb = document.createElement("input");
-  cb.type = "checkbox";
-  const span = document.createElement("span");
-  span.textContent = "Done on selected date";
+      const nextBtn = document.createElement("button");
+      nextBtn.className = "btn secondary";
+      nextBtn.textContent = "Next ▶";
 
-  innerLabel.appendChild(cb);
-  innerLabel.appendChild(span);
-  checkWrap.appendChild(innerLabel);
+      const freqChip = document.createElement("span");
+      freqChip.className = "chip";
+      freqChip.textContent = item.freq;
 
-  const noteBox = document.createElement("div");
-  noteBox.className = "treat-note";
-  const noteLabel = document.createElement("label");
-  noteLabel.innerHTML = "<strong>Note for this date</strong>";
-  const noteArea = document.createElement("textarea");
-  noteArea.placeholder = "Anything special to record for this session...";
-  noteBox.appendChild(noteLabel);
-  noteBox.appendChild(noteArea);
+      controls.appendChild(dateLabel);
+      controls.appendChild(dateInput);
+      controls.appendChild(todayBtn);
+      controls.appendChild(prevBtn);
+      controls.appendChild(nextBtn);
+      controls.appendChild(freqChip);
 
-  body.appendChild(recipeTitle);
-  body.appendChild(ul);
-  body.appendChild(method);
-  body.appendChild(checkWrap);
-  body.appendChild(noteBox);
+      head.appendChild(title);
+      head.appendChild(controls);
 
-  wrap.appendChild(head);
-  wrap.appendChild(body);
+      const body = document.createElement("div");
+      body.className = "treat-body";
 
-  const loadForDate = (iso) => {
-    const all = getTreatmentState();
-    const perItem = all[item.name] || {};
-    const rec = perItem[iso] || { done:false, note:"" };
-    cb.checked = !!rec.done;
-    innerLabel.classList.toggle("completed", cb.checked);
-    innerLabel.classList.toggle("missed", !cb.checked);
-    noteArea.value = rec.note || "";
-  };
+      const recipeTitle = document.createElement("div");
+      recipeTitle.className = "treat-recipe";
+      recipeTitle.textContent = "Ingredients";
 
-  const saveCurrent = () => {
-    const iso = clampDateToRange(dateInput.value);
-    const all = getTreatmentState();
-    if (!all[item.name]) all[item.name] = {};
-    all[item.name][iso] = {
-      done: cb.checked,
-      note: noteArea.value || ""
-    };
-    saveTreatmentState(all);
-    innerLabel.classList.toggle("completed", cb.checked);
-    innerLabel.classList.toggle("missed", !cb.checked);
-  };
+      const ul = document.createElement("ul");
+      ul.style.margin = "6px 0 6px 18px";
+      ul.style.padding = "0";
+      item.recipe.forEach(r => {
+        const li = document.createElement("li");
+        li.textContent = r;
+        ul.appendChild(li);
+      });
 
-  loadForDate(dateInput.value);
+      const method = document.createElement("div");
+      method.className = "method";
+      method.textContent = `Method: ${item.method}`;
 
-  cb.addEventListener("change", saveCurrent);
-  noteArea.addEventListener("input", saveCurrent);
+      const checkWrap = document.createElement("div");
+      checkWrap.className = "treat-check";
+      const innerLabel = document.createElement("label");
+      const cb = document.createElement("input");
+      cb.type = "checkbox";
+      const span = document.createElement("span");
+      span.textContent = "Done on selected date";
 
-  todayBtn.addEventListener("click", () => {
-    dateInput.value = clampDateToRange(toISO(new Date()));
-    loadForDate(dateInput.value);
-  });
-  prevBtn.addEventListener("click", () => {
-    dateInput.value = clampDateToRange(addDays(dateInput.value, -1));
-    loadForDate(dateInput.value);
-  });
-  nextBtn.addEventListener("click", () => {
-    dateInput.value = clampDateToRange(addDays(dateInput.value, +1));
-    loadForDate(dateInput.value);
-  });
-  dateInput.addEventListener("change", () => {
-    dateInput.value = clampDateToRange(dateInput.value);
-    loadForDate(dateInput.value);
-  });
+      innerLabel.appendChild(cb);
+      innerLabel.appendChild(span);
+      checkWrap.appendChild(innerLabel);
 
-  return wrap;
-}
+      const noteBox = document.createElement("div");
+      noteBox.className = "treat-note";
+      const noteLabel = document.createElement("label");
+      noteLabel.innerHTML = "<strong>Note for this date</strong>";
+      const noteArea = document.createElement("textarea");
+      noteArea.placeholder = "Anything special to record for this session...";
+      noteBox.appendChild(noteLabel);
+      noteBox.appendChild(noteArea);
 
-function renderTreatments(){
-  const container = document.getElementById("treatments-list");
-  container.innerHTML = "";
-  TREATMENTS.forEach(item => {
-    container.appendChild(treatmentCard(item));
-  });
-}
+      body.appendChild(recipeTitle);
+      body.appendChild(ul);
+      body.appendChild(method);
+      body.appendChild(checkWrap);
+      body.appendChild(noteBox);
 
-/* ========= INIT ========= */
-document.addEventListener("DOMContentLoaded", async () => {
+      wrap.appendChild(head);
+      wrap.appendChild(body);
+
+      const loadForDate = (iso) => {
+        const all = getTreatmentState();
+        const perItem = all[item.name] || {};
+        const rec = perItem[iso] || { done: false, note: "" };
+        cb.checked = !!rec.done;
+        innerLabel.classList.toggle("completed", cb.checked);
+        innerLabel.classList.toggle("missed", !cb.checked);
+        noteArea.value = rec.note || "";
+      };
+
+      const saveCurrent = () => {
+        const iso = clampDateToRange(dateInput.value);
+        const all = getTreatmentState();
+        if (!all[item.name]) all[item.name] = {};
+        all[item.name][iso] = {
+          done: cb.checked,
+          note: noteArea.value || ""
+        };
+        saveTreatmentState(all);
+        innerLabel.classList.toggle("completed", cb.checked);
+        innerLabel.classList.toggle("missed", !cb.checked);
+      };
+
+      loadForDate(dateInput.value);
+
+      cb.addEventListener("change", saveCurrent);
+      noteArea.addEventListener("input", saveCurrent);
+
+      todayBtn.addEventListener("click", () => {
+        dateInput.value = clampDateToRange(toISO(new Date()));
+        loadForDate(dateInput.value);
+      });
+      prevBtn.addEventListener("click", () => {
+        dateInput.value = clampDateToRange(addDays(dateInput.value, -1));
+        loadForDate(dateInput.value);
+      });
+      nextBtn.addEventListener("click", () => {
+        dateInput.value = clampDateToRange(addDays(dateInput.value, +1));
+        loadForDate(dateInput.value);
+      });
+      dateInput.addEventListener("change", () => {
+        dateInput.value = clampDateToRange(dateInput.value);
+        loadForDate(dateInput.value);
+      });
+
+      return wrap;
+    }
+
+    function renderTreatments() {
+      const container = document.getElementById("treatments-list");
+      container.innerHTML = "";
+      TREATMENTS.forEach(item => {
+        container.appendChild(treatmentCard(item));
+      });
+    }
+
+    /* ========= INIT ========= */
+    document.addEventListener("DOMContentLoaded", async () => {
   await loadDataFromGitHub();
   document.getElementById('save-github').addEventListener('click', saveDataToGitHub);
-  const dailyDate = document.getElementById("daily-date");
-  const todayISO = clampDateToRange(toISO(new Date()));
-  dailyDate.value = todayISO;
-  loadDailyForDate(dailyDate.value);
+      const dailyDate = document.getElementById("daily-date");
+      const todayISO = clampDateToRange(toISO(new Date()));
+      dailyDate.value = todayISO;
+      loadDailyForDate(dailyDate.value);
 
-  document.getElementById("go-today").addEventListener("click", () => {
-    dailyDate.value = clampDateToRange(toISO(new Date()));
-    loadDailyForDate(dailyDate.value);
-  });
-  document.getElementById("prev-day").addEventListener("click", () => {
-    const prev = clampDateToRange(addDays(dailyDate.value, -1));
-    dailyDate.value = prev;
-    loadDailyForDate(prev);
-  });
-  document.getElementById("next-day").addEventListener("click", () => {
-    const next = clampDateToRange(addDays(dailyDate.value, 1));
-    dailyDate.value = next;
-    loadDailyForDate(next);
-  });
-  dailyDate.addEventListener("change", () => {
-    const v = clampDateToRange(dailyDate.value);
-    dailyDate.value = v;
-    loadDailyForDate(v);
-  });
+      document.getElementById("go-today").addEventListener("click", () => {
+        dailyDate.value = clampDateToRange(toISO(new Date()));
+        loadDailyForDate(dailyDate.value);
+      });
+      document.getElementById("prev-day").addEventListener("click", () => {
+        const prev = clampDateToRange(addDays(dailyDate.value, -1));
+        dailyDate.value = prev;
+        loadDailyForDate(prev);
+      });
+      document.getElementById("next-day").addEventListener("click", () => {
+        const next = clampDateToRange(addDays(dailyDate.value, 1));
+        dailyDate.value = next;
+        loadDailyForDate(next);
+      });
+      dailyDate.addEventListener("change", () => {
+        const v = clampDateToRange(dailyDate.value);
+        dailyDate.value = v;
+        loadDailyForDate(v);
+      });
 
-  const weekStart = document.getElementById("week-start");
-  const savedWeek = ((appData[KEYS.weekStart) || "");
-  const defaultWeek = mondayOf(todayISO);
-  weekStart.value = savedWeek || defaultWeek;
-  renderWeekly(weekStart.value);
-  weekStart.addEventListener("change", () => {
-    const mon = mondayOf(weekStart.value);
-    weekStart.value = mon;
-    appData[KEYS.weekStart] = mon;
-    renderWeekly(mon);
-  });
+      const weekStart = document.getElementById("week-start");
+      const savedWeek = (appData[KEYS.weekStart] || "");
+      const defaultWeek = mondayOf(todayISO);
+      weekStart.value = savedWeek || defaultWeek;
+      renderWeekly(weekStart.value);
+      weekStart.addEventListener("change", () => {
+        const mon = mondayOf(weekStart.value);
+        weekStart.value = mon;
+        appData[KEYS.weekStart] = mon;
+        renderWeekly(mon);
+      });
 
-  renderTreatments();
-  renderMonthly();
-  renderSidebar();
-  renderAdditional();
-});
-</script>
+      renderTreatments();
+      renderMonthly();
+      renderSidebar();
+      renderAdditional();
+    });
+  </script>
 </body>
+
 </html>
