@@ -1,5 +1,15 @@
 {
   "dailyMorning": {},
   "dailyNight": {},
-  "notes": {}
+  "dailyNote": {},
+  "weekly": {},
+  "weeklyNote": {},
+  "monthly": {},
+  "monthlyNote": "",
+  "extraCare": {},
+  "oralBody": {},
+  "sidebarNote": "",
+  "additional": {},
+  "additionalNote": "",
+  "treatments": {}
 }

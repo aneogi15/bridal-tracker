@@ -1,4 +1,4 @@
-name: Update Data JSON
+name: Update data.json
 
 on:
   repository_dispatch:

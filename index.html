@@ -214,6 +214,7 @@
   <div class="wrap">
     <div class="title-card">
       <h1>BRIDAL GLOW CALENDAR – 15 AUG 2025 to 1 DEC 2025</h1>
+      <button id="save-github" class="btn">💾 Save Data</button>
       <div class="period">Offline • Saved to this device • v3</div>
     </div>
 
@@ -330,6 +331,56 @@
 
 <script>
 /* ========= CONFIG / DATA ========= */
+
+/* ========= GITHUB CONFIG ========= */
+const GH_USERNAME = "aneogi15";
+const GH_REPO     = "bridal-tracker";
+const GH_TOKEN    = "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"; // ⚠ Exposed publicly
+const GH_BRANCH   = "main";
+const DATA_FILE   = "data.json";
+let appData = {};
+
+/* ========= GITHUB HELPERS ========= */
+async function loadDataFromGitHub() {
+  const url = `https://raw.githubusercontent.com/${GH_USERNAME}/${GH_REPO}/${GH_BRANCH}/${DATA_FILE}?t=${Date.now()}`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error("Failed to load data.json");
+  appData = await res.json();
+  console.log("Loaded data from GitHub:", appData);
+}
+
+async function getCurrentFileSHA() {
+  const res = await fetch(`https://api.github.com/repos/${GH_USERNAME}/${GH_REPO}/contents/${DATA_FILE}`, {
+    headers: { Authorization: `token ${GH_TOKEN}` }
+  });
+  if (!res.ok) throw new Error("Failed to get file SHA");
+  const json = await res.json();
+  return json.sha;
+}
+
+async function saveDataToGitHub() {
+  const sha = await getCurrentFileSHA();
+  const res = await fetch(`https://api.github.com/repos/${GH_USERNAME}/${GH_REPO}/contents/${DATA_FILE}`, {
+    method: "PUT",
+    headers: {
+      Authorization: `token ${GH_TOKEN}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      message: "Update data.json from Bridal Glow Calendar",
+      content: btoa(unescape(encodeURIComponent(JSON.stringify(appData, null, 2)))),
+      branch: GH_BRANCH,
+      sha
+    })
+  });
+  if (res.ok) {
+    alert("✅ Data saved to GitHub!");
+  } else {
+    alert("❌ Failed to save data to GitHub");
+    console.error(await res.text());
+  }
+}
+
 
 // Date window for the calendar
 const START_DATE = "2025-08-15";
@@ -512,16 +563,6 @@ const TREATMENTS = [
 ];
 
 /* ========= HELPERS ========= */
-function loadJSON(key, fallback){
-  try{
-    const v = localStorage.getItem(key);
-    return v ? JSON.parse(v) : (fallback ?? null);
-  }catch{
-    return (fallback ?? null);
-  }
-}
-function saveJSON(key, value){
-  localStorage.setItem(key, JSON.stringify(value));
 }
 function clampDateToRange(iso){
   if (iso < START_DATE) return START_DATE;
@@ -581,15 +622,15 @@ function renderChecklist(container, items, stateObj){
 }
 
 function loadDailyForDate(iso){
-  const allMorning = loadJSON(KEYS.dailyMorning, {});
+  const allMorning = ((appData[KEYS.dailyMorning) || {}));
   const morningState = allMorning[iso] || {};
   renderChecklist(document.getElementById("morning-list"), MORNING_TASKS, morningState);
 
-  const allNight = loadJSON(KEYS.dailyNight, {});
+  const allNight = ((appData[KEYS.dailyNight) || {}));
   const nightState = allNight[iso] || {};
   renderChecklist(document.getElementById("night-list"), NIGHT_TASKS, nightState);
 
-  const allNotes = loadJSON(KEYS.dailyNote, {});
+  const allNotes = ((appData[KEYS.dailyNote) || {}));
   const note = allNotes[iso] || "";
   const noteEl = document.getElementById("daily-note");
   noteEl.value = note;
@@ -600,18 +641,18 @@ function loadDailyForDate(iso){
       const cb = lbl.querySelector('input[type="checkbox"]');
       if (cb) allMorning[iso][i] = cb.checked;
     });
-    saveJSON(KEYS.dailyMorning, allMorning);
+    appData[KEYS.dailyMorning] = allMorning;
 
     allNight[iso] = {};
     [...document.querySelectorAll("#night-list label")].forEach((lbl, i) => {
       const cb = lbl.querySelector('input[type="checkbox"]');
       if (cb) allNight[iso][i] = cb.checked;
     });
-    saveJSON(KEYS.dailyNight, allNight);
+    appData[KEYS.dailyNight] = allNight;
 
-    const notes = loadJSON(KEYS.dailyNote, {});
+    const notes = ((appData[KEYS.dailyNote) || {}));
     notes[iso] = document.getElementById("daily-note").value || "";
-    saveJSON(KEYS.dailyNote, notes);
+    appData[KEYS.dailyNote] = notes;
   };
 
   document.getElementById("morning-list").onchange = saveDaily;
@@ -624,7 +665,7 @@ function renderWeekly(weekStartISO){
   const container = document.getElementById("weekly-list");
   container.innerHTML = "";
 
-  const weeklyAll = loadJSON(KEYS.weekly, {});
+  const weeklyAll = ((appData[KEYS.weekly) || {}));
   const weekState = weeklyAll[weekStartISO] || {};
 
   WEEKLY_TASKS.forEach(({day, task}) => {
@@ -648,10 +689,10 @@ function renderWeekly(weekStartISO){
     inner.classList.toggle("missed", !cb.checked);
 
     cb.addEventListener("change", () => {
-      const all = loadJSON(KEYS.weekly, {});
+      const all = ((appData[KEYS.weekly) || {}));
       if (!all[weekStartISO]) all[weekStartISO] = {};
       all[weekStartISO][day] = cb.checked;
-      saveJSON(KEYS.weekly, all);
+      appData[KEYS.weekly] = all;
 
       inner.classList.toggle("completed", cb.checked);
       inner.classList.toggle("missed", !cb.checked);
@@ -660,14 +701,14 @@ function renderWeekly(weekStartISO){
     container.appendChild(wrap);
   });
 
-  const noteAll = loadJSON(KEYS.weeklyNote, {});
+  const noteAll = ((appData[KEYS.weeklyNote) || {}));
   const note = noteAll[weekStartISO] || "";
   const noteEl = document.getElementById("weekly-note");
   noteEl.value = note;
   noteEl.oninput = () => {
-    const nAll = loadJSON(KEYS.weeklyNote, {});
+    const nAll = ((appData[KEYS.weeklyNote) || {}));
     nAll[weekStartISO] = noteEl.value || "";
-    saveJSON(KEYS.weeklyNote, nAll);
+    appData[KEYS.weeklyNote] = nAll;
   };
 }
 
@@ -675,7 +716,7 @@ function renderWeekly(weekStartISO){
 function renderMonthly(){
   const container = document.getElementById("monthly-list");
   container.innerHTML = "";
-  const monthlyAll = loadJSON(KEYS.monthly, {});
+  const monthlyAll = ((appData[KEYS.monthly) || {}));
 
   Object.entries(MONTHLY_PURCHASES).forEach(([month, items]) => {
     const block = document.createElement("div");
@@ -703,10 +744,10 @@ function renderMonthly(){
       label.classList.toggle("missed", !cb.checked);
 
       cb.addEventListener("change", () => {
-        const all = loadJSON(KEYS.monthly, {});
+        const all = ((appData[KEYS.monthly) || {}));
         if (!all[month]) all[month] = {};
         all[month][it] = cb.checked;
-        saveJSON(KEYS.monthly, all);
+        appData[KEYS.monthly] = all;
         label.classList.toggle("completed", cb.checked);
         label.classList.toggle("missed", !cb.checked);
       });
@@ -721,9 +762,9 @@ function renderMonthly(){
   });
 
   const monthlyNote = document.getElementById("monthly-note");
-  monthlyNote.value = loadJSON(KEYS.monthlyNote, "") || "";
+  monthlyNote.value = ((appData[KEYS.monthlyNote) || "") || "";
   monthlyNote.oninput = () => {
-    saveJSON(KEYS.monthlyNote, monthlyNote.value || "");
+    appData[KEYS.monthlyNote] = monthlyNote.value || "";
   };
 }
 
@@ -733,7 +774,7 @@ function renderSidebar(){
   const oralEl = document.getElementById("oral-body-list");
   extraEl.innerHTML = ""; oralEl.innerHTML = "";
 
-  const extraState = loadJSON(KEYS.extraCare, {});
+  const extraState = ((appData[KEYS.extraCare) || {}));
   EXTRA_CARE.forEach((txt) => {
     const label = document.createElement("label");
     const cb = document.createElement("input");
@@ -744,16 +785,16 @@ function renderSidebar(){
     span.textContent = txt;
 
     cb.addEventListener("change", () => {
-      const s = loadJSON(KEYS.extraCare, {});
+      const s = ((appData[KEYS.extraCare) || {}));
       s[txt] = cb.checked;
-      saveJSON(KEYS.extraCare, s);
+      appData[KEYS.extraCare] = s;
     });
 
     label.appendChild(cb); label.appendChild(span);
     extraEl.appendChild(label);
   });
 
-  const oralState = loadJSON(KEYS.oralBody, {});
+  const oralState = ((appData[KEYS.oralBody) || {}));
   ORAL_BODY.forEach((txt) => {
     const label = document.createElement("label");
     const cb = document.createElement("input");
@@ -764,9 +805,9 @@ function renderSidebar(){
     span.textContent = txt;
 
     cb.addEventListener("change", () => {
-      const s = loadJSON(KEYS.oralBody, {});
+      const s = ((appData[KEYS.oralBody) || {}));
       s[txt] = cb.checked;
-      saveJSON(KEYS.oralBody, s);
+      appData[KEYS.oralBody] = s;
     });
 
     label.appendChild(cb); label.appendChild(span);
@@ -774,9 +815,9 @@ function renderSidebar(){
   });
 
   const sideNote = document.getElementById("sidebar-note");
-  sideNote.value = loadJSON(KEYS.sidebarNote, "") || "";
+  sideNote.value = ((appData[KEYS.sidebarNote) || "") || "";
   sideNote.oninput = () => {
-    saveJSON(KEYS.sidebarNote, sideNote.value || "");
+    appData[KEYS.sidebarNote] = sideNote.value || "";
   };
 }
 
@@ -784,7 +825,7 @@ function renderSidebar(){
 function renderAdditional(){
   const container = document.getElementById("additional-list");
   container.innerHTML = "";
-  const state = loadJSON(KEYS.additional, {});
+  const state = ((appData[KEYS.additional) || {}));
 
   ADDITIONAL_SUGGESTIONS.forEach((txt) => {
     const label = document.createElement("label");
@@ -800,9 +841,9 @@ function renderAdditional(){
     label.classList.toggle("missed", !cb.checked);
 
     cb.addEventListener("change", () => {
-      const s = loadJSON(KEYS.additional, {});
+      const s = ((appData[KEYS.additional) || {}));
       s[txt] = cb.checked;
-      saveJSON(KEYS.additional, s);
+      appData[KEYS.additional] = s;
       label.classList.toggle("completed", cb.checked);
       label.classList.toggle("missed", !cb.checked);
     });
@@ -813,15 +854,15 @@ function renderAdditional(){
   });
 
   const noteEl = document.getElementById("additional-note");
-  noteEl.value = loadJSON(KEYS.additionalNote, "") || "";
+  noteEl.value = ((appData[KEYS.additionalNote) || "") || "";
   noteEl.oninput = () => {
-    saveJSON(KEYS.additionalNote, noteEl.value || "");
+    appData[KEYS.additionalNote] = noteEl.value || "";
   };
 }
 
 /* ========= TREATMENTS (Masks, Packs & Treatments) ========= */
-function getTreatmentState(){ return loadJSON(KEYS.treatments, {}); }
-function saveTreatmentState(state){ saveJSON(KEYS.treatments, state); }
+function getTreatmentState(){ return ((appData[KEYS.treatments) || {})); }
+function saveTreatmentState(state){ appData[KEYS.treatments] = state; }
 
 function treatmentCard(item){
   const wrap = document.createElement("div");
@@ -980,7 +1021,9 @@ function renderTreatments(){
 }
 
 /* ========= INIT ========= */
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+  await loadDataFromGitHub();
+  document.getElementById('save-github').addEventListener('click', saveDataToGitHub);
   const dailyDate = document.getElementById("daily-date");
   const todayISO = clampDateToRange(toISO(new Date()));
   dailyDate.value = todayISO;
@@ -1007,14 +1050,14 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   const weekStart = document.getElementById("week-start");
-  const savedWeek = loadJSON(KEYS.weekStart, "");
+  const savedWeek = ((appData[KEYS.weekStart) || "");
   const defaultWeek = mondayOf(todayISO);
   weekStart.value = savedWeek || defaultWeek;
   renderWeekly(weekStart.value);
   weekStart.addEventListener("change", () => {
     const mon = mondayOf(weekStart.value);
     weekStart.value = mon;
-    saveJSON(KEYS.weekStart, mon);
+    appData[KEYS.weekStart] = mon;
     renderWeekly(mon);
   });
 
