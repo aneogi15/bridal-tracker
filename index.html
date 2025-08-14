@@ -772,23 +772,6 @@ async function saveDataToGitHub() {
     ];
 
     /* ========= HELPERS ========= */
-        }
-        async function saveDataToGitHub(newData) {
-      await fetch("https://api.github.com/repos/aneogi15/bridal-tracker/dispatches", {
-        method: "POST",
-        headers: {
-          "Accept": "application/vnd.github+json",
-          "Authorization": "Bearer " + GITHUB_PROXY_KEY, // see note below
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          event_type: "update-data",
-          client_payload: {
-            new_data: JSON.stringify(newData)
-          }
-        })
-      });
-    }
     function clampDateToRange(iso) {
       if (iso < START_DATE) return START_DATE;
       if (iso > END_DATE) return END_DATE;
